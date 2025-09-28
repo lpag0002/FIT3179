@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Australian Median Income Choropleth</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+    }
+    #vis {
+      width: 700px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Median Income by Australian State</h2>
+<div id="vis"></div>
+
+<script>
+  const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/lpag0002/FIT3179/refs/heads/main/au-states-topo.json",
+    "format": {
+      "type": "topojson",
+      "feature": "austates"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "id",
+      "from": {
+        "data": {
+          "values": [
+            { "id": 0, "state": "New South Wales", "Median income": 813 },
+            { "id": 1, "state": "Victoria", "Median income": 803 },
+            { "id": 2, "state": "Queensland", "Median income": 787 },
+            { "id": 3, "state": "South Australia", "Median income": 734 },
+            { "id": 4, "state": "Western Australia", "Median income": 848 },
+            { "id": 5, "state": "Tasmania", "Median income": 701 },
+            { "id": 6, "state": "Northern Territory", "Median income": 936 },
+            { "id": 7, "state": "Australian Capital Territory", "Median income": 1203 },
+          ]
+        },
+        "key": "id",
+        "fields": ["Median income", "state"]
+      }
+    }
+  ],
+  "projection": {
+    "type": "mercator"
+  },
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white"
+  },
+  "encoding": {
+    "color": {
+      "field": "Median income",
+      "type": "quantitative",
+      "title": "Median Income",
+    },
+    "tooltip": [
+      { "field": "state", "type": "nominal" },
+      { "field": "Median income", "type": "quantitative" }
+    ]
+  }
+};
+
+  vegaEmbed('#vis', spec).then(console.log).catch(console.error);
+</script>
+
+</body>
+</html>
