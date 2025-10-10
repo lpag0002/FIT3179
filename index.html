@@ -23,7 +23,7 @@
 <div id="vis"></div>
 
 <script>
-  const spec = {
+  const spec1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 600,
   "height": 500,
@@ -74,9 +74,91 @@
     ]
   }
 };
+const spec2 = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Median weekly earnings by gender, with filter and inline labels",
+  "width": 400,
+  "data": {
+    "values": [
+      {"Year": "Aug-19", "Group": "Employees", "Gender": "Males", "Earnings": 1280},
+      {"Year": "Aug-23", "Group": "Employees", "Gender": "Males", "Earnings": 1500},
+      {"Year": "Aug-24", "Group": "Employees", "Gender": "Males", "Earnings": 1577},
 
-  vegaEmbed('#vis', spec).then(console.log).catch(console.error);
+      {"Year": "Aug-19", "Group": "Employees", "Gender": "Females", "Earnings": 950},
+      {"Year": "Aug-23", "Group": "Employees", "Gender": "Females", "Earnings": 1150},
+      {"Year": "Aug-24", "Group": "Employees", "Gender": "Females", "Earnings": 1200},
+
+      {"Year": "Aug-19", "Group": "Employees", "Gender": "Persons", "Earnings": 1100},
+      {"Year": "Aug-23", "Group": "Employees", "Gender": "Persons", "Earnings": 1300},
+      {"Year": "Aug-24", "Group": "Employees", "Gender": "Persons", "Earnings": 1396},
+
+      {"Year": "Aug-19", "Group": "Full-time employees", "Gender": "Males", "Earnings": 1473},
+      {"Year": "Aug-23", "Group": "Full-time employees", "Gender": "Males", "Earnings": 1700},
+      {"Year": "Aug-24", "Group": "Full-time employees", "Gender": "Males", "Earnings": 1789},
+
+      {"Year": "Aug-19", "Group": "Full-time employees", "Gender": "Females", "Earnings": 1250},
+      {"Year": "Aug-23", "Group": "Full-time employees", "Gender": "Females", "Earnings": 1500},
+      {"Year": "Aug-24", "Group": "Full-time employees", "Gender": "Females", "Earnings": 1598},
+
+      {"Year": "Aug-19", "Group": "Full-time employees", "Gender": "Persons", "Earnings": 1375},
+      {"Year": "Aug-23", "Group": "Full-time employees", "Gender": "Persons", "Earnings": 1600},
+      {"Year": "Aug-24", "Group": "Full-time employees", "Gender": "Persons", "Earnings": 1700}
+    ]
+  },
+  "params": [
+    {
+      "name": "jobType",
+      "value": "Employees",
+      "bind": {
+        "input": "select",
+        "options": ["Employees", "Full-time employees"],
+        "labels": ["Employees", "Full-time employees"],
+        "name": "Job Type: "
+      }
+    }
+  ],
+  "transform": [{"filter": "datum.Group === jobType"}],
+  "layer": [
+    {
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+        "y": {
+          "field": "Earnings",
+          "type": "quantitative",
+          "title": "Median Weekly Earnings ($)"
+        },
+        "color": {"field": "Gender", "type": "nominal", "title": "Gender"},
+        "tooltip": [
+          {"field": "Year"},
+          {"field": "Gender"},
+          {"field": "Earnings"},
+          {"field": "Group"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -15,
+        "dy": -10,
+        "fontSize": 10
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"},
+        "y": {"field": "Earnings", "type": "quantitative"},
+        "text": {"field": "Earnings", "type": "quantitative"},
+        "color": {"field": "Gender", "type": "nominal"}
+      }
+    }
+  ]
+};
+
+  vegaEmbed('#vis', spec1).then(console.log).catch(console.error);
+  vegaEmbed('#vis', spec2).then(console.log).catch(console.error);
 </script>
 
 </body>
 </html>
+
