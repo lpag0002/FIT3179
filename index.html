@@ -20,7 +20,9 @@
 <body>
 
 <h2>Median Income by Australian State</h2>
-<div id="vis"></div>
+<div id="vis1"></div>
+<h2>Median Weekly Earnings Line Chart</h2>
+<div id="vis2"></div>
 
 <script>
   const spec1 = {
@@ -155,10 +157,11 @@ const spec2 = {
   ]
 };
 
-  vegaEmbed('#vis', spec1).then(console.log).catch(console.error);
-  vegaEmbed('#vis', spec2).then(console.log).catch(console.error);
+  vegaEmbed('#vis1', spec1).then(console.log).catch(console.error);
+  vegaEmbed('#vis2', spec2).then(console.log).catch(console.error);
 </script>
 
 </body>
 </html>
+
 
